@@ -20,7 +20,9 @@ public class GuessingGame {
 class Game {
     int randomNumber;
     int numGuesses = 0;
-    
+    int[] guessHistory = new int[100];// Array called guessHistory that has space for a 100 integers
+    int index = 0;
+
 
     public Game(){
             randomNumber = ThreadLocalRandom.current().nextInt(1,101);   
@@ -32,33 +34,54 @@ class Game {
         // I can do a while loop basically until number is guess keep asking. I can turn the askForNumber
 
         //While loop easy: While guess doesn't equal random number keep running the program
-        System.out.println("I've randomly selected a Number from 1-100.\n Please guess a number: ");
-        int guess = scanner.nextInt();
+        System.out.print("I've randomly selected a Number from 1-100.\n Please guess a number: ");
+        int guessedNumber = scanner.nextInt();
+        scanner.nextLine();
 
-        while (randomNumber != guess) {
+        for (int i = 0; i <= guessHistory.length; i++){
             //Add +1 to the tries counter, compare guess to randomnumber, too low, too high, if it breaks while loop throw a if ststement correct
-            if (guess < randomNumber && guess <= 100) {
-                numGuesses++;
-                System.out.println("Too LOW\n"+ "Number of tries: " + numGuesses+ "\nnext number: ");
-                guess = scanner.nextInt();
+                if (guessedNumber < randomNumber && guessedNumber <= 100) {
+                    guessHistory[i] = guessedNumber;
+                    numGuesses++;
+                    System.out.print("Too LOW\n"+ "Number of tries: " + numGuesses + "\nnext number: ");
+                    guessedNumber = scanner.nextInt();
+                }
+                else if (guessedNumber > randomNumber && guessedNumber <= 100) {
+                    guessHistory[i] = guessedNumber;
+                    numGuesses++;
+                    System.out.print("Too HIGH\n"+ "Number of tries: " + numGuesses + "\nnext number: ");
+                    guessedNumber = scanner.nextInt();
 
+                }
+                else if (randomNumber == guessedNumber){
+                    numGuesses++;
+                    guessHistory[i] = guessedNumber;
+                    break;
+            
+                }
+                else{
+                    System.out.print("Not valud input");
+                    
+                }
             }
-            else if (guess > randomNumber && guess <= 100) {
-                numGuesses++;
-                System.out.println("Too HIGH\n"+ "Number of tries: " + numGuesses+ "\nnext number: ");
-                guess = scanner.nextInt();
 
+            for (int i = 0; i < guessHistory.length; i++) {
+                if (guessHistory[i] == 0){
+                    break;
+                }
+                else {
+                System.out.println(guessHistory[i]);
+                }
             }
-            else{
-                System.out.println("Not valud input");
-                
-            }
-        }
-        if (randomNumber == guess){
-            numGuesses++;
-            System.out.println("Correct\n Number of Tries" + numGuesses);
-        }
+        
+        
+    
         scanner.close();
+    
+
+    
+        
+        
 
     }
 }
