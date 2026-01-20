@@ -20,71 +20,50 @@ public class GuessingGame {
 class Game {
     int randomNumber;
     int numGuesses = 0;
-    int[] guessHistory = new int[100];// Array called guessHistory that has space for a 100 integers
+    int[] guessArray = new int[10000];// Array called guessHistory that has space for a 100 integers
     int index = 0;
+    String correctHighLow;
+
+    
 
 
     public Game(){
-            randomNumber = ThreadLocalRandom.current().nextInt(1,101);   
+            //Load array with numbers
+            for (int i = 0; i < guessArray.length; i++) {
+                guessArray[i] = i; 
+            }
                 
     }
     public void runGame () {
         Scanner scanner = new Scanner(System.in);
 
-        // I can do a while loop basically until number is guess keep asking. I can turn the askForNumber
+        System.out.println("I will guess a number your thinking from 1-100");
 
-        //While loop easy: While guess doesn't equal random number keep running the program
-        System.out.print("I've randomly selected a Number from 1-100.\n Please guess a number: ");
-        int guessedNumber = scanner.nextInt();
-        scanner.nextLine();
-
-        for (int i = 0; i <= guessHistory.length; i++){
-            //Add +1 to the tries counter, compare guess to randomnumber, too low, too high, if it breaks while loop throw a if ststement correct
-                if (guessedNumber < randomNumber && guessedNumber <= 100 && guessedNumber > 0) {
-                    guessHistory[i] = guessedNumber;
-                    numGuesses++;
-                    System.out.print("Too LOW\n"+ "Number of tries: " + numGuesses + "\nnext number: ");
-                    guessedNumber = scanner.nextInt();
-                }
-                else if (guessedNumber > randomNumber && guessedNumber <= 100 && guessedNumber > 0) {
-                    guessHistory[i] = guessedNumber;
-                    numGuesses++;
-                    System.out.print("Too HIGH\n"+ "Number of tries: " + numGuesses + "\nnext number: ");
-                    guessedNumber = scanner.nextInt();
-
-                }
-                else if (randomNumber == guessedNumber){
-                    numGuesses++;
-                    guessHistory[i] = guessedNumber;
-                    break;
-            
-                }
-                else{
-                    i--;
-                    System.out.print("Try Again only 1-100: ");
-                    guessedNumber = scanner.nextInt();
+        BinarySearch(0, guessArray.length, scanner);
                     
-                }
-            }
-
-            for (int i = 0; i < guessHistory.length; i++) {
-                if (guessHistory[i] == 0){
-                    break;
-                }
-                else {
-                System.out.println(guessHistory[i]);
-                }
-            }
-        
-        
     
         scanner.close();
     
+    }
 
-    
+    public void BinarySearch(int low, int high, Scanner scanner){
+        int mid = low + (high - low) / 2;
         
-        
+        System.out.print("Is this correct, low, or high " + guessArray[mid] + "? ");
+        correctHighLow = scanner.next();
 
+        if (correctHighLow.equals("correct")) {
+            System.out.print("Nice I got it");
+        }
+
+        if (correctHighLow.equals("Low")){
+            BinarySearch(mid + 1, high, scanner);
+        }
+
+        if (correctHighLow.equals("High")) {
+            BinarySearch(low, mid, scanner);
+        }
+        
     }
 }
 
