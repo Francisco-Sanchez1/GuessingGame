@@ -40,13 +40,13 @@ class Game {
 
         for (int i = 0; i <= guessHistory.length; i++){
             //Add +1 to the tries counter, compare guess to randomnumber, too low, too high, if it breaks while loop throw a if ststement correct
-                if (guessedNumber < randomNumber && guessedNumber <= 100) {
+                if (guessedNumber < randomNumber && guessedNumber <= 100 && guessedNumber > 0) {
                     guessHistory[i] = guessedNumber;
                     numGuesses++;
                     System.out.print("Too LOW\n"+ "Number of tries: " + numGuesses + "\nnext number: ");
                     guessedNumber = scanner.nextInt();
                 }
-                else if (guessedNumber > randomNumber && guessedNumber <= 100) {
+                else if (guessedNumber > randomNumber && guessedNumber <= 100 && guessedNumber > 0) {
                     guessHistory[i] = guessedNumber;
                     numGuesses++;
                     System.out.print("Too HIGH\n"+ "Number of tries: " + numGuesses + "\nnext number: ");
@@ -60,7 +60,9 @@ class Game {
             
                 }
                 else{
-                    System.out.print("Not valud input");
+                    i--;
+                    System.out.print("Try Again only 1-100: ");
+                    guessedNumber = scanner.nextInt();
                     
                 }
             }
